@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <title>Habultron test with CreateJS</title>
+    <script>
+
+
+
+
+      var stage, output;
+      var nameField = 140;
+      var otherFieldsWidth = (600-nameField)/12;
+      var topRow = 20;
+      var fieldsHeight = 35;
+      var canvasSelector = document.getElementById('stage-canvas');
+      var cols= 12;
+      var rows = 8;
+
+
+
+      function Stage() {
+        stage = new createjs.Stage("stage-canvas");
+        stage.mouseMoveOutside = true;
+        stage.update();
+      }
+
+
+function NameTag(name,yDragger, color) {
+
+    var sizeX = 200;
+    var nameTag = new createjs.Shape();
+    nameTag.graphics.beginFill(color).rect(0, 0, nameField, fieldsHeight);
+    nameTag.x = 0;
+    nameTag.y = 0;
+
+    var label = new createjs.Text(name, "bold 14px Arial", "white");
+    label.textAlign = "center";
+    label.x = nameField/2;
+    label.y = fieldsHeight/2-7;
+
+
+    var task = new createjs.Shape();
+    task.graphics.beginFill(color).rect(0, 0, nameField, 8);
+
+    task.x=200;
+    task.y=yDragger+fieldsHeight/2;
+    stage.addChild(task);
+
+
+
+    var dragger = new createjs.Container();
+    dragger.addChild(nameTag, label);
+    dragger.y=yDragger;
+    stage.addChild(dragger);
+
+
+
+      //Solving X hit here
+      var array = [];
+      var posX =dragger.x;
+      var posY =dragger.y;
+      var pt;
+
+
+      
+    dragger.on("pressmove",function(evt) {
+      //array= [];
+
+for (var i = 0; i < stage.children.length; i++) {
+  if (stage.children[i].children !== undefined) {
+   //console.log(stage.children[i].children[0].parent.y);
+   //console.log(stage.children[i].children[0].parent);
+   pt = dragger.localToLocal(nameField/2,fieldsHeight/2,stage.children[i].children[0].parent);
+ //    if (target.hitTest(pt.x, pt.y)) { target.alpha = 1; }
+  //console.log(pt.x, pt.y);
+  stage.children[i].children[0].parent.alpha = 1;
+  if (dragger.hitTest(pt.x, pt.y)) {
+    stage.children[i].children[0].parent.alpha = 0.2;
+    dragger.alpha=1;
+    //evt.currentTarget.x = evt.stagex;
+    //console.log(dragger);
+    }
+    //console.log(posY);
+    //posY = move;
+    stage.update();
+  }
+
+}
+
+// for (var i = 0; i < stage.children.length; i++) {
+//   if (stage.children[i].children !== undefined) {
+//    //console.log(stage.children[i].children[0].parent.y);
+//    //console.log(stage.children[i].children[0].parent);
+//    pt = dragger.localToLocal(nameField/2,fieldsHeight/2,stage.children[i].children[0].parent);
+//  //    if (target.hitTest(pt.x, pt.y)) { target.alpha = 1; }
+//   //console.log(pt.x, pt.y);
+//   stage.children[i].children[0].parent.alpha = 1;
+//   if (stage.children[i].children[0].parent.hitTest(pt.x, pt.y)) {
+//     stage.children[i].children[0].parent.alpha = 0.2;
+//     dragger.alpha=1;
+//     dragger.y=posY;
+//     //evt.currentTarget.x = evt.stagex;
+//     //console.log(dragger);
+//     }
+//     //console.log(posY);
+//     //posY = move;
+//     stage.update();
+//   }
+//
+// }
+
+      evt.currentTarget.y = evt.stageY-fieldsHeight/2;
+      //task.y = posY;
+      //stage.update();
+    });
+
+
+    //Reset position if pupulated
+dragger.on("pressup", function(e) {
+  //console.log(pt.y);
+  //if (dragger.hitTest(pt.x, pt.y)) {
+    //console.log('ola')
+
+  //  }
+  
+
+//trying to return dragger to initial position if already taken
+  for (var i = 0; i < stage.children.length; i++) {
+    if (stage.children[i].children !== undefined) {
+
+       if (dragger.y===stage.children[i].children[0].parent.y || dragger.y !== posY) {
+              var sameField = 160;
+              //console.log(sameField);
+               array.push(stage.children[i].children[0].parent.y);
+               //for (let i = 0; i < array.length; i++) {
+                 const element = array[i];
+                 //sameField = element;
+                 //console.log(sameField);
+                //console.log(element);
+                console.log(array);
+                //console.log(sameField<element-10 && sameField>element-10);
+                 
+                  // if (sameField<element+15 || sameField>element-15 ) {
+                  //   console.log('saame');
+                  //   //console.log(sameField);
+                  //   //console.log(element);
+                  // } else{
+                  //   sameField = element;
+                  // }
+                 //var test = {...array}
+                 //console.log(array);
+                 //console.log(sameField);
+               //};
+            } else{
+
+            }
+             //console.log(array);
+            
+            
+      //        //console.log(stage.children[i].children[0].parent.y);
+      //       //console.log(e.currentTarget.y);
+      // }
+
+     //console.log(dragger.y);
+     //console.log(stage.children[i].children[0].parent);
+   //   pt = dragger.localToLocal(nameField/2,fieldsHeight/2,stage.children[i].children[0].parent);
+   // //    if (target.hitTest(pt.x, pt.y)) { target.alpha = 1; }
+   //  //console.log(pt.x, pt.y);
+   //  stage.children[i].children[0].parent.alpha = 1;
+   //  if (dragger.hitTest(pt.x, pt.y)) {
+   //    stage.children[i].children[0].parent.alpha = 0.2;
+   //    dragger.alpha=1;
+   //    //evt.currentTarget.x = evt.stagex;
+       //console.log(dragger.y);
+   //    }
+   //    //console.log(posY);
+   //    //posY = move;
+      //stage.update();
+    }
+
+  }
+
+
+
+  //fix the Y position of the cells
+    var cellAxisMin = (topRow+fieldsHeight/2)-1;
+    var cellAxisMax = (topRow+fieldsHeight/2)+1;
+   for (let i = 0; i < rows; i++) {
+
+     if (e.stageY>cellAxisMin && e.stageY<cellAxisMax) {
+
+      dragger.y = topRow;
+      task.y= dragger.y +fieldsHeight/2-4;
+     } else if (e.stageY>cellAxisMin+fieldsHeight*[i]) {
+      dragger.y = topRow+fieldsHeight*[i];
+      task.y= dragger.y +fieldsHeight/2-4;
+      }
+
+     //stage.update();
+   }
+   stage.update();
+ })
+
+
+    task.on("pressmove",function(evt) {
+      //rightclick to extend task length
+      if(window.event.which===3 && evt.stageX<evt.currentTarget.x+this.graphics.command.w+20 && evt.stageX>evt.currentTarget.x+this.graphics.command.w-20){
+        evt.preventDefault();
+        this.graphics.command.w=evt.stageX-evt.currentTarget.x;
+      }else{
+        evt.currentTarget.x = evt.stageX;
+      };
+      stage.update();
+    });
+
+    stage.update()
+};
+
+
+
+function nameOne() {
+  NameTag('Zlatko Lukic',55, "DeepSkyBlue");
+  NameTag('Zlatan Habul',125, "Grey");
+  NameTag('Tommy Nilsson',160, "Red");
+  NameTag('Irnes Duran',195, "Black");
+};
+
+
+
+      function drawTable() {
+        var frame = new createjs.Shape();
+        frame.graphics.setStrokeStyle(1).beginStroke("black")
+             .moveTo(nameField,0).lineTo(nameField,400)
+             .moveTo(0, topRow).lineTo(600, topRow);
+        //Table columns
+        for (i = 0; i < cols; i++) {
+          frame.graphics.setStrokeStyle(1).beginStroke("black")
+      	 		.moveTo(nameField+otherFieldsWidth*[i],0).lineTo(nameField+otherFieldsWidth*[i],400);
+        };
+        //Table rows
+        for (i = 0; i < rows; i++) {
+          frame.graphics.setStrokeStyle(1).beginStroke("black")
+          .moveTo(0,topRow+fieldsHeight*[i]).lineTo(600,topRow+fieldsHeight*[i]);
+        };
+
+      	stage.addChild(frame);
+        stage.update();
+      }
+
+
+      // Month names constructor
+      function CreateHeaderText(dateText,xOffset){
+        var text = new createjs.Text(dateText, "20px Arial", "black");
+        text.x = 100;
+        text.textBaseline = "alphabetic";
+        text.x = nameField+2+xOffset;
+        text.y = topRow-3;
+        stage.addChild(text);
+      };
+
+
+      //create Text for months names
+      function headerText() {
+        CreateHeaderText('Jan',0);
+        CreateHeaderText('Feb',otherFieldsWidth);
+        CreateHeaderText('Mar',otherFieldsWidth*2);
+        CreateHeaderText('Apr',otherFieldsWidth*3);
+        CreateHeaderText('Maj',otherFieldsWidth*4);
+        CreateHeaderText('Jun',otherFieldsWidth*5);
+        CreateHeaderText('Jul',otherFieldsWidth*6);
+        CreateHeaderText('Avg',otherFieldsWidth*7);
+        CreateHeaderText('Sep',otherFieldsWidth*8);
+        CreateHeaderText('Okt',otherFieldsWidth*9);
+        CreateHeaderText('Nov',otherFieldsWidth*10);
+        CreateHeaderText('Dec',otherFieldsWidth*11);
+      }
+
+      //Initilization of all functions which need to be invoked
+
+      function init() {
+        document.addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+            }, false);
+
+      Stage();
+      drawTable();
+      headerText();
+      nameOne();
+      }
+    </script>
+
+
+
+
+
+    <style>
+      body{
+        margin:0;
+        padding :15px;
+        background-color:#ccc;
+      }
+      canvas {
+        border: solid 2px #000;
+        background-color:#fff;
+        display: block;
+        margin: 0px auto 0px auto;
+        padding-left:0;
+        padding-right:0;
+      }
+
+    </style>
+  </head>
+  <body onload="init();">
+    <canvas id="stage-canvas" width="600" height="400">
+    This web browser does not support canvas.</canvas>
+  </body>
+</html>
